@@ -33,63 +33,253 @@ At times, we may wish to tune a classification algorithm to optimize against pre
 
 ```python
 import pandas as pd
-df = pd.read_csv()
-
+df = pd.read_csv('heart.csv')
+df.head()
 ```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>age</th>
+      <th>sex</th>
+      <th>cp</th>
+      <th>trestbps</th>
+      <th>chol</th>
+      <th>fbs</th>
+      <th>restecg</th>
+      <th>thalach</th>
+      <th>exang</th>
+      <th>oldpeak</th>
+      <th>slope</th>
+      <th>ca</th>
+      <th>thal</th>
+      <th>target</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>63</td>
+      <td>1</td>
+      <td>3</td>
+      <td>145</td>
+      <td>233</td>
+      <td>1</td>
+      <td>0</td>
+      <td>150</td>
+      <td>0</td>
+      <td>2.3</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>37</td>
+      <td>1</td>
+      <td>2</td>
+      <td>130</td>
+      <td>250</td>
+      <td>0</td>
+      <td>1</td>
+      <td>187</td>
+      <td>0</td>
+      <td>3.5</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>41</td>
+      <td>0</td>
+      <td>1</td>
+      <td>130</td>
+      <td>204</td>
+      <td>0</td>
+      <td>0</td>
+      <td>172</td>
+      <td>0</td>
+      <td>1.4</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>56</td>
+      <td>1</td>
+      <td>1</td>
+      <td>120</td>
+      <td>236</td>
+      <td>0</td>
+      <td>1</td>
+      <td>178</td>
+      <td>0</td>
+      <td>0.8</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>57</td>
+      <td>0</td>
+      <td>0</td>
+      <td>120</td>
+      <td>354</td>
+      <td>0</td>
+      <td>1</td>
+      <td>163</td>
+      <td>1</td>
+      <td>0.6</td>
+      <td>2</td>
+      <td>0</td>
+      <td>2</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
 
 
 ```python
-#Your code here
+from sklearn.cross_validation import train_test_split
+
+X = df[df.columns[:-1]]
+y = df.target
+
+# Split the data into a training set and a test set
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
 ```
+
+    /Users/lore.dirick/anaconda3/lib/python3.6/site-packages/sklearn/cross_validation.py:41: DeprecationWarning: This module was deprecated in version 0.18 in favor of the model_selection module into which all the refactored classes and functions are moved. Also note that the interface of the new CV iterators are different from that of this module. This module will be removed in 0.20.
+      "This module will be removed in 0.20.", DeprecationWarning)
+
 
 ## 2. Create a standard logistic regression model
 
 
 ```python
-#Your code here
+from sklearn.linear_model import LogisticRegression
 ```
 
-## 3. Write a function to calculate the precision
+
+```python
+logreg = LogisticRegression(fit_intercept = False, C = 1e12)
+model_log = logreg.fit(X_train, y_train)
+model_log
+```
+
+
+
+
+    LogisticRegression(C=1000000000000.0, class_weight=None, dual=False,
+              fit_intercept=False, intercept_scaling=1, max_iter=100,
+              multi_class='ovr', n_jobs=1, penalty='l2', random_state=None,
+              solver='liblinear', tol=0.0001, verbose=0, warm_start=False)
+
+
+
+## 3. Write a function to calculate the precision.
 
 
 ```python
 def precision(y_hat, y):
-    #Your code here
+    #Could also use confusion matrix
+    y_y_hat = list(zip(y, y_hat))
+    tp = sum([1 for i in y_y_hat if i[0]==1 and i[1]==1])
+    fp = sum([1 for i in y_y_hat if i[0]==0 and i[1]==1])
+    return tp/float(tp+fp)
 ```
 
-## 4. Write a function to calculate the recall
+## 4. Write a function to calculate the recall.
 
 
 ```python
 def recall(y_hat, y):
-    #Your code here
+    #Could also use confusion matrix
+    y_y_hat = list(zip(y, y_hat))
+    tp = sum([1 for i in y_y_hat if i[0]==1 and i[1]==1])
+    fn = sum([1 for i in y_y_hat if i[0]==1 and i[1]==0])
+    return tp/float(tp+fn)
 ```
 
-## 5. Write a function to calculate the accuracy
+## 5. Write a function to calculate the accuracy.
 
 
 ```python
 def accuracy(y_hat, y):
-    #Your code here
+    #Could also use confusion matrix
+    y_y_hat = list(zip(y, y_hat))
+    tp = sum([1 for i in y_y_hat if i[0]==1 and i[1]==1])
+    tn = sum([1 for i in y_y_hat if i[0]==0 and i[1]==0])
+    return (tp+tn)/float(len(y_hat))
 ```
 
-## 6. Calculate the precision, recall and accuracy of your classifier
-
-Do this for both the train and the test set.
+## 6. Calculate the precision, recall and accuracy of your classifier.
 
 
 ```python
-#Your code here
+y_hat_test = logreg.predict(X_test)
+y_hat_train = logreg.predict(X_train)
+
+print('Training Precision: ', precision(y_hat_train, y_train))
+print('Testing Precision: ', precision(y_hat_test, y_test))
+print('\n\n')
+
+print('Training Recall: ', recall(y_hat_train, y_train))
+print('Testing Recall: ', recall(y_hat_test, y_test))
+print('\n\n')
+
+print('Training Accuracy: ', accuracy(y_hat_train, y_train))
+print('Testing Accuracy: ', accuracy(y_hat_test, y_test))
 ```
 
+    Training Precision:  0.8396946564885496
+    Testing Precision:  0.8125
+    
+    
+    
+    Training Recall:  0.9016393442622951
+    Testing Recall:  0.9069767441860465
+    
+    
+    
+    Training Accuracy:  0.8546255506607929
+    Testing Accuracy:  0.8289473684210527
+
+
 ## 7. Comparing Precision Recall and Accuracy of Test vs Train Sets
-
-
 Plot the precision, recall and accuracy for test and train splits using different train set sizes. What do you notice?
 
 
 ```python
-importimport  matplotlib.pyplotmatplot  as plt
+import matplotlib.pyplot as plt
 %matplotlib inline
 ```
 
@@ -103,31 +293,73 @@ training_Accuracy = []
 testing_Accuracy = []
 
 for i in range(10,95):
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size= None) #replace the "None" here
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=i/100.0)
     logreg = LogisticRegression(fit_intercept = False, C = 1e12)
-    model_log = None
-    y_hat_test = None
-    y_hat_train = None
+    model_log = logreg.fit(X_train, y_train)
+    y_hat_test = logreg.predict(X_test)
+    y_hat_train = logreg.predict(X_train)
 
-# 6 lines of code here
-```
-
-Create 3 scatter plots looking at the test and train precision in the first one, test and train recall in the second one, and testing and training accuracy in the third one.
-
-
-```python
-# code for test and train precision
-```
-
-
-```python
-# code for test and train recall
+    training_Precision.append(precision(y_hat_train, y_train))
+    testing_Precision.append(precision(y_hat_test, y_test))
+    training_Recall.append(recall(y_hat_train, y_train))
+    testing_Recall.append(recall(y_hat_test, y_test))
+    training_Accuracy.append(accuracy(y_hat_train, y_train))
+    testing_Accuracy.append(accuracy(y_hat_test, y_test))
 ```
 
 
 ```python
-# code for test and train accuracy
+plt.scatter(list(range(10,95)), training_Precision, label = 'training_Precision')
+plt.scatter(list(range(10,95)), testing_Precision, label = 'testing_Precision')
+plt.legend()
 ```
+
+
+
+
+    <matplotlib.legend.Legend at 0x1a10606c88>
+
+
+
+
+![png](index_files/index_19_1.png)
+
+
+
+```python
+plt.scatter(list(range(10,95)), training_Recall, label = 'training_Recall')
+plt.scatter(list(range(10,95)), testing_Recall, label = 'testing_Recall')
+plt.legend()
+```
+
+
+
+
+    <matplotlib.legend.Legend at 0x1a139caa20>
+
+
+
+
+![png](index_files/index_20_1.png)
+
+
+
+```python
+plt.scatter(list(range(10,95)), training_Accuracy, label = 'training_Accuracy')
+plt.scatter(list(range(10,95)), testing_Accuracy, label = 'testing_Accuracy')
+plt.legend()
+```
+
+
+
+
+    <matplotlib.legend.Legend at 0x1a13a8ca90>
+
+
+
+
+![png](index_files/index_21_1.png)
+
 
 ## Summary
 
