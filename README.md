@@ -110,7 +110,7 @@ Compare the results of your performance metrics functions with the sklearn funct
 #Your code here
 ```
 
-## 8. Comparing Precision, Recall, Accuracy, and F1-Score of Test vs Train Sets
+## 9. Comparing Precision, Recall, Accuracy, and F1-Score of Test vs Train Sets
 
 
 Calculate and then plot the precision, recall, accuracy, and F1-score for the test and train splits using different train set sizes. What do you notice?
@@ -155,6 +155,11 @@ Create 4 scatter plots looking at the test and train precision in the first one,
 
 ```python
 # code for test and train accuracy
+```
+
+
+```python
+# code for test and train F1-score
 ```
 
 ## Summary
