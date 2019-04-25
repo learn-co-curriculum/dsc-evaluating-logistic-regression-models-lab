@@ -81,9 +81,18 @@ def f1_score(y_hat,y):
     #Your code here
 ```
 
-Great Job! Let's check our work with sklearn. 
+## 7. Calculate the precision, recall, accuracy, and F1-score of your classifier.
 
-## 7. Calculating Metrics with sklearn
+Do this for both the training and the test set
+
+
+```python
+#Your code here
+```
+
+Great Job! Now it's time to check your work with sklearn. 
+
+## 8. Calculating Metrics with sklearn
 
 Each of the metrics we calculated above is also available inside the `sklearn.metrics` module.  
 
@@ -94,12 +103,17 @@ In the cell below, import the following functions:
 * `accuracy_score`
 * `f1_score`
 
-Check the results of your function with the performance of our functions above. Calculate these values for both your train and test set.
-
-## 8. Comparing Precision, Recall, and Accuracy of Test vs Train Sets
+Compare the results of your performance metrics functions with the sklearn functions above. Calculate these values for both your train and test set.
 
 
-Calculate and then plot the precision, recall and accuracy for test and train splits using different train set sizes. What do you notice?
+```python
+#Your code here
+```
+
+## 8. Comparing Precision, Recall, Accuracy, and F1-Score of Test vs Train Sets
+
+
+Calculate and then plot the precision, recall, accuracy, and F1-score for the test and train splits using different train set sizes. What do you notice?
 
 
 ```python
@@ -126,7 +140,7 @@ for i in range(10,95):
 # 6 lines of code here
 ```
 
-Create 3 scatter plots looking at the test and train precision in the first one, test and train recall in the second one, and testing and training accuracy in the third one.
+Create 4 scatter plots looking at the test and train precision in the first one, test and train recall in the second one, testing and training accuracy in the third one, and testing and training f1-score in the fourth one.
 
 
 ```python
