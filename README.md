@@ -3,13 +3,13 @@
 
 ## Introduction
 
-As we saw with KNN, we need alternative evaluation metrics to determine the effectiveness of classification algorithms. In regression, we were predicting values so it made sense to discuss error as a distance of how far off our estimates were. In classifying a binary variable however, we are either correct or incorrect. As a result, we tend to deconstruct this as how many false positives versus false negatives we come across.  
-In particular, we examine a few different specific measurements when evaluating the performance of a classification algorithm. In this review lab, we'll review precision, recall and accuracy in order to evaluate our logistic regression models.
+ In regression, you are predicting values so it made sense to discuss error as a distance of how far off our estimates were. In classifying a binary variable however, a model is either correct or incorrect. As a result, we tend to deconstruct this as how many false positives versus false negatives we come across.  
+In particular, we examine a few different specific measurements when evaluating the performance of a classification algorithm. In this review lab, we'll review precision, recall, accuracy, and F1-score in order to evaluate our logistic regression models.
 
 
 ## Objectives
 You will be able to:  
-* Understand and assess precision recall and accuracy of classifiers
+* Understand and assess precision, recall, and accuracy of classifiers
 * Evaluate classification models using various metrics
 
 ## Terminology Review  
@@ -24,17 +24,17 @@ $Recall = \frac{\text{Number of True Positives}}{\text{Number of Actual Total Po
   
 $Accuracy = \frac{\text{Number of True Positives + True Negatives}}{\text{Total Observations}}$
 
-![](./images/Precisionrecall.png)
+$\text{F1-Score} = 2\ \frac{Precision\ x\ Recall}{Precision + Recall}$
 
-At times, we may wish to tune a classification algorithm to optimize against precison or recall rather then overall accuracy. For example, imagine the scenario of predicting whether or not a patient is at risk for cancer and should be brought in for additional testing. In cases such as this, we often may want to cast a slightly wider net, and it is much preferable to optimize for precision, the number of cancer positive cases, then it is to optimize recall, the percentage of our predicted cancer-risk patients who are indeed positive.
+
+At times, it may be superior to tune a classification algorithm to optimize against precision or recall rather than overall accuracy. For example, imagine the scenario of predicting whether or not a patient is at risk for cancer and should be brought in for additional testing. In cases such as this, we often may want to cast a slightly wider net, and it is much preferable to optimize for recall, the number of cancer positive cases, then it is to optimize precision, the percentage of our predicted cancer-risk patients who are indeed positive.
 
 ## 1. Split the data into train and test sets
 
 
 ```python
 import pandas as pd
-df = pd.read_csv()
-
+df = pd.read_csv('heart.csv')
 ```
 
 
@@ -73,19 +73,33 @@ def accuracy(y_hat, y):
     #Your code here
 ```
 
-## 6. Calculate the precision, recall and accuracy of your classifier
-
-Do this for both the train and the test set.
+## 6. Write a function to calculate the F1-score
 
 
 ```python
-#Your code here
+def f1_score(y_hat,y):
+    #Your code here
 ```
 
-## 7. Comparing Precision Recall and Accuracy of Test vs Train Sets
+Great Job! Let's check our work with sklearn. 
+
+## 7. Calculating Metrics with sklearn
+
+Each of the metrics we calculated above is also available inside the `sklearn.metrics` module.  
+
+In the cell below, import the following functions:
+
+* `precision_score`
+* `recall_score`
+* `accuracy_score`
+* `f1_score`
+
+Check the results of your function with the performance of our functions above. Calculate these values for both your train and test set.
+
+## 8. Comparing Precision, Recall, and Accuracy of Test vs Train Sets
 
 
-Plot the precision, recall and accuracy for test and train splits using different train set sizes. What do you notice?
+Calculate and then plot the precision, recall and accuracy for test and train splits using different train set sizes. What do you notice?
 
 
 ```python
