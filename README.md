@@ -244,7 +244,7 @@ def accuracy(y_hat, y):
     return (tp+tn)/float(len(y_hat))
 ```
 
-## Write a function to calculate the F1-score
+## 6. Write a function to calculate the F1-score
 
 
 ```python
@@ -256,7 +256,7 @@ def f1(y_hat,y):
     return 2 * (numerator / denominator)
 ```
 
-## 6. Calculate the precision, recall, accuracy, and F1-score of your classifier.
+## 7. Calculate the precision, recall, accuracy, and F1-score of your classifier.
 
 Do this for both the training and test set.
 
@@ -302,7 +302,7 @@ print('Testing F1-Score: ',f1(y_hat_test,y_test))
 
 Great Job! Now it's time to check your work with sklearn
 
-## 7. Calculating Metrics with sklearn
+## 8. Calculating Metrics with sklearn
 
 Each of the metrics you calculated above are also available inside the `sklearn.metrics` module.  
 
@@ -354,8 +354,8 @@ print('Testing F1-Score: ',f1_score(y_hat_test,y_test))
     Testing F1-Score:  0.8571428571428572
 
 
-## 8. Comparing Precision Recall and Accuracy of Test vs Train Sets
-Plot the precision, recall and accuracy for test and train splits using different train set sizes. What do you notice?
+## 9. Comparing Precision Recall, Accuracy, and F1-Score of Test vs Train Sets
+Plot the precision, recall, accuracy, and F1-score for test and train splits using different train set sizes. What do you notice?
 
 
 ```python
