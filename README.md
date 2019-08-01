@@ -3,8 +3,7 @@
 
 ## Introduction
 
- In regression, you are predicting values so it made sense to discuss error as a distance of how far off our estimates were. In classifying a binary variable however, a model is either correct or incorrect. As a result, we tend to deconstruct this as how many false positives versus false negatives we come across.  
-In particular, we examine a few different specific measurements when evaluating the performance of a classification algorithm. In this review lab, we'll review precision, recall, accuracy, and F1-score in order to evaluate our logistic regression models.
+In regression, you are predicting values so it makes sense to discuss error as a distance of how far off our estimates were. When classifying a binary variable, however, a model is either correct or incorrect. As a result, we tend to quantify this in terms of how many false positives versus false negatives we come across. In particular, we examine a few different specific measurements when evaluating the performance of a classification algorithm. In this review lab, we'll review precision, recall, accuracy, and F1-score in order to evaluate our logistic regression models.
 
 
 ## Objectives
@@ -27,7 +26,7 @@ $Accuracy = \frac{\text{Number of True Positives + True Negatives}}{\text{Total 
 $\text{F1-Score} = 2\ \frac{Precision\ x\ Recall}{Precision + Recall}$
 
 
-At times, it may be superior to tune a classification algorithm to optimize against precision or recall rather than overall accuracy. For example, imagine the scenario of predicting whether or not a patient is at risk for cancer and should be brought in for additional testing. In cases such as this, we often may want to cast a slightly wider net, and it is much preferable to optimize for recall, the number of cancer positive cases, then it is to optimize precision, the percentage of our predicted cancer-risk patients who are indeed positive.
+At times, it may be superior to tune a classification algorithm to optimize against precision or recall rather than overall accuracy. For example, imagine the scenario of predicting whether or not a patient is at risk for cancer and should be brought in for additional testing. In cases such as this, we often may want to cast a slightly wider net, and it is preferable to optimize for recall, the number of cancer positive cases, then it is to optimize precision, the percentage of our predicted cancer-risk patients who are indeed positive.
 
 ## 1. Split the data into train and test sets
 
@@ -204,8 +203,6 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
 from sklearn.linear_model import LogisticRegression
 ```
 
-## 3. Write a function to calculate the precision
-
 
 ```python
 # __SOLUTION__ 
@@ -228,13 +225,13 @@ model_log
 
 
 
+## 3. Write a function to calculate the precision
+
 
 ```python
 def precision(y_hat, y):
     #Your code here
 ```
-
-## 4. Write a function to calculate the recall
 
 
 ```python
@@ -247,13 +244,13 @@ def precision(y_hat, y):
     return tp/float(tp+fp)
 ```
 
+## 4. Write a function to calculate the recall
+
 
 ```python
 def recall(y_hat, y):
     #Your code here
 ```
-
-## 5. Write a function to calculate the accuracy
 
 
 ```python
@@ -266,13 +263,13 @@ def recall(y_hat, y):
     return tp/float(tp+fn)
 ```
 
+## 5. Write a function to calculate the accuracy
+
 
 ```python
 def accuracy(y_hat, y):
     #Your code here
 ```
-
-## 6. Write a function to calculate the F1-score
 
 
 ```python
@@ -285,15 +282,13 @@ def accuracy(y_hat, y):
     return (tp+tn)/float(len(y_hat))
 ```
 
+## 6. Write a function to calculate the F1-score
+
 
 ```python
 def f1_score(y_hat,y):
     #Your code here
 ```
-
-## 7. Calculate the precision, recall, accuracy, and F1-score of your classifier.
-
-Do this for both the training and the test set
 
 
 ```python
@@ -306,25 +301,14 @@ def f1(y_hat,y):
     return 2 * (numerator / denominator)
 ```
 
+## 7. Calculate the precision, recall, accuracy, and F1-score of your classifier.
+
+Do this for both the training and the test set
+
 
 ```python
 #Your code here
 ```
-
-Great Job! Now it's time to check your work with sklearn. 
-
-## 8. Calculating Metrics with sklearn
-
-Each of the metrics we calculated above is also available inside the `sklearn.metrics` module.  
-
-In the cell below, import the following functions:
-
-* `precision_score`
-* `recall_score`
-* `accuracy_score`
-* `f1_score`
-
-Compare the results of your performance metrics functions with the sklearn functions above. Calculate these values for both your train and test set.
 
 
 ```python
@@ -367,13 +351,25 @@ print('Testing F1-Score: ',f1(y_hat_test,y_test))
     Testing F1-Score:  0.8571428571428572
 
 
+Great Job! Now it's time to check your work with sklearn. 
+
+## 8. Calculating Metrics with sklearn
+
+Each of the metrics we calculated above is also available inside the `sklearn.metrics` module.  
+
+In the cell below, import the following functions:
+
+* `precision_score`
+* `recall_score`
+* `accuracy_score`
+* `f1_score`
+
+Compare the results of your performance metrics functions with the sklearn functions above. Calculate these values for both your train and test set.
+
 
 ```python
 #Your code here
 ```
-
-## 9. Comparing Precision, Recall, Accuracy, and F1-Score of Test vs Train Sets
-
 
 
 ```python
@@ -413,6 +409,9 @@ print('Testing F1-Score: ',f1_score(y_hat_test,y_test))
     
     Training F1-Score:  0.8695652173913043
     Testing F1-Score:  0.8571428571428572
+
+
+## 9. Comparing Precision, Recall, Accuracy, and F1-Score of Test vs Train Sets
 
 
 Calculate and then plot the precision, recall, accuracy, and F1-score for the test and train splits using different train set sizes. What do you notice?
@@ -483,6 +482,11 @@ Create 4 scatter plots looking at the test and train precision in the first one,
 
 
 ```python
+# code for test and train precision
+```
+
+
+```python
 # __SOLUTION__ 
 plt.scatter(list(range(10,95)), training_Precision, label = 'training_Precision')
 plt.scatter(list(range(10,95)), testing_Precision, label = 'testing_Precision')
@@ -497,12 +501,12 @@ plt.legend()
 
 
 
-![png](index_files/index_36_1.png)
+![png](index_files/index_37_1.png)
 
 
 
 ```python
-# code for test and train precision
+# code for test and train recall
 ```
 
 
@@ -521,12 +525,12 @@ plt.legend()
 
 
 
-![png](index_files/index_38_1.png)
+![png](index_files/index_39_1.png)
 
 
 
 ```python
-# code for test and train recall
+# code for test and train accuracy
 ```
 
 
@@ -545,12 +549,12 @@ plt.legend()
 
 
 
-![png](index_files/index_40_1.png)
+![png](index_files/index_41_1.png)
 
 
 
 ```python
-# code for test and train accuracy
+# code for test and train F1-score
 ```
 
 
@@ -569,13 +573,8 @@ plt.legend()
 
 
 
-![png](index_files/index_42_1.png)
+![png](index_files/index_43_1.png)
 
-
-
-```python
-# code for test and train F1-score
-```
 
 ## Summary
 
