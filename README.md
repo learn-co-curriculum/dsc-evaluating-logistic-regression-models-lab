@@ -26,7 +26,7 @@ $Accuracy = \frac{\text{Number of True Positives + True Negatives}}{\text{Total 
 $\text{F1-Score} = 2\ \frac{Precision\ x\ Recall}{Precision + Recall}$
 
 
-At times, it may be superior to tune a classification algorithm to optimize against precision or recall rather than overall accuracy. For example, imagine the scenario of predicting whether or not a patient is at risk for cancer and should be brought in for additional testing. In cases such as this, we often may want to cast a slightly wider net, and it is preferable to optimize for recall, the number of cancer positive cases, then it is to optimize precision, the percentage of our predicted cancer-risk patients who are indeed positive.
+At times, it may be superior to tune a classification algorithm to optimize against precision or recall rather than overall accuracy. For example, imagine the scenario of predicting whether or not a patient is at risk for cancer and should be brought in for additional testing. In cases such as this, we often may want to cast a slightly wider net, and it is preferable to optimize for recall, the number of cancer positive cases, than it is to optimize precision, the percentage of our predicted cancer-risk patients who are indeed positive.
 
 ## 1. Split the data into train and test sets
 
@@ -82,7 +82,7 @@ def f1_score(y_hat,y):
 
 ## 7. Calculate the precision, recall, accuracy, and F1-score of your classifier.
 
-Do this for both the training and the test set
+Do this for both the train and the test set
 
 
 ```python
@@ -112,11 +112,11 @@ Compare the results of your performance metrics functions with the sklearn funct
 ## 9. Comparing Precision, Recall, Accuracy, and F1-Score of Test vs Train Sets
 
 
-Calculate and then plot the precision, recall, accuracy, and F1-score for the test and train splits using different train set sizes. What do you notice?
+Calculate and then plot the precision, recall, accuracy, and F1-score for the test and train splits using different training set sizes. What do you notice?
 
 
 ```python
-importimport  matplotlib.pyplotmatplot  as plt
+import  matplotlib.pyplotmatplot  as plt
 %matplotlib inline
 ```
 
@@ -136,10 +136,10 @@ for i in range(10,95):
     y_hat_test = None
     y_hat_train = None
 
-# 6 lines of code here
+# Your code here
 ```
 
-Create 4 scatter plots looking at the test and train precision in the first one, test and train recall in the second one, testing and training accuracy in the third one, and testing and training f1-score in the fourth one.
+Create 4 scatter plots looking at the test and train precision in the first one, test and train recall in the second one, test and train accuracy in the third one, and test and train f1-score in the fourth one.
 
 
 ```python
