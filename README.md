@@ -26,7 +26,7 @@ $Accuracy = \frac{\text{Number of True Positives + True Negatives}}{\text{Total 
 $\text{F1-Score} = 2\ \frac{Precision\ x\ Recall}{Precision + Recall}$
 
 
-At times, it may be superior to tune a classification algorithm to optimize against precision or recall rather than overall accuracy. For example, imagine the scenario of predicting whether or not a patient is at risk for cancer and should be brought in for additional testing. In cases such as this, we often may want to cast a slightly wider net, and it is preferable to optimize for recall, the number of cancer positive cases, then it is to optimize precision, the percentage of our predicted cancer-risk patients who are indeed positive.
+At times, it may be superior to tune a classification algorithm to optimize against precision or recall rather than overall accuracy. For example, imagine the scenario of predicting whether or not a patient is at risk for cancer and should be brought in for additional testing. In cases such as this, we often may want to cast a slightly wider net, and it is preferable to optimize for recall, the number of cancer positive cases, than it is to optimize precision, the percentage of our predicted cancer-risk patients who are indeed positive.
 
 ## 1. Split the data into train and test sets
 
@@ -206,22 +206,19 @@ from sklearn.linear_model import LogisticRegression
 
 ```python
 # __SOLUTION__ 
-logreg = LogisticRegression(fit_intercept = False, C = 1e12)
+logreg = LogisticRegression(fit_intercept = False, C = 1e12, solver='liblinear')
 model_log = logreg.fit(X_train, y_train)
 model_log
 ```
-
-    /Users/forest.polchow/anaconda3/lib/python3.6/site-packages/sklearn/linear_model/logistic.py:433: FutureWarning: Default solver will be changed to 'lbfgs' in 0.22. Specify a solver to silence this warning.
-      FutureWarning)
-
 
 
 
 
     LogisticRegression(C=1000000000000.0, class_weight=None, dual=False,
-              fit_intercept=False, intercept_scaling=1, max_iter=100,
-              multi_class='warn', n_jobs=None, penalty='l2', random_state=None,
-              solver='warn', tol=0.0001, verbose=0, warm_start=False)
+                       fit_intercept=False, intercept_scaling=1, l1_ratio=None,
+                       max_iter=100, multi_class='warn', n_jobs=None, penalty='l2',
+                       random_state=None, solver='liblinear', tol=0.0001, verbose=0,
+                       warm_start=False)
 
 
 
@@ -303,7 +300,7 @@ def f1(y_hat,y):
 
 ## 7. Calculate the precision, recall, accuracy, and F1-score of your classifier.
 
-Do this for both the training and the test set
+Do this for both the train and the test set
 
 
 ```python
@@ -414,11 +411,11 @@ print('Testing F1-Score: ',f1_score(y_hat_test,y_test))
 ## 9. Comparing Precision, Recall, Accuracy, and F1-Score of Test vs Train Sets
 
 
-Calculate and then plot the precision, recall, accuracy, and F1-score for the test and train splits using different train set sizes. What do you notice?
+Calculate and then plot the precision, recall, accuracy, and F1-score for the test and train splits using different training set sizes. What do you notice?
 
 
 ```python
-importimport  matplotlib.pyplotmatplot  as plt
+import  matplotlib.pyplotmatplot  as plt
 %matplotlib inline
 ```
 
@@ -445,7 +442,7 @@ for i in range(10,95):
     y_hat_test = None
     y_hat_train = None
 
-# 6 lines of code here
+# Your code here
 ```
 
 
@@ -478,7 +475,7 @@ for i in range(10,95):
     
 ```
 
-Create 4 scatter plots looking at the test and train precision in the first one, test and train recall in the second one, testing and training accuracy in the third one, and testing and training f1-score in the fourth one.
+Create 4 scatter plots looking at the test and train precision in the first one, test and train recall in the second one, test and train accuracy in the third one, and test and train f1-score in the fourth one.
 
 
 ```python
@@ -496,7 +493,7 @@ plt.legend()
 
 
 
-    <matplotlib.legend.Legend at 0x1a1be02fd0>
+    <matplotlib.legend.Legend at 0x1a1e5486d8>
 
 
 
@@ -520,7 +517,7 @@ plt.legend()
 
 
 
-    <matplotlib.legend.Legend at 0x1a1bf5c198>
+    <matplotlib.legend.Legend at 0x1a1e5aa390>
 
 
 
@@ -544,7 +541,7 @@ plt.legend()
 
 
 
-    <matplotlib.legend.Legend at 0x1a1c010f98>
+    <matplotlib.legend.Legend at 0x1a1e77dda0>
 
 
 
@@ -568,7 +565,7 @@ plt.legend()
 
 
 
-    <matplotlib.legend.Legend at 0x1a1c079e80>
+    <matplotlib.legend.Legend at 0x1a1e880240>
 
 
 
