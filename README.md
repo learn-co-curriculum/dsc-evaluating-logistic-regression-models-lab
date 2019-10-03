@@ -8,8 +8,8 @@ In regression, you are predicting values so it makes sense to discuss error as a
 
 ## Objectives
 You will be able to:  
-* Understand and assess precision, recall, and accuracy of classifiers
-* Evaluate classification models using various metrics
+- Understand and assess precision, recall, and accuracy of classifiers
+- Evaluate classification models using various metrics
 
 ## Terminology Review  
 
