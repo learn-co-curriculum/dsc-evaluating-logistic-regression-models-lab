@@ -3,32 +3,34 @@
 
 ## Introduction
 
-In regression, you are predicting values so it makes sense to discuss error as a distance of how far off our estimates were. When classifying a binary variable, however, a model is either correct or incorrect. As a result, we tend to quantify this in terms of how many false positives versus false negatives we come across. In particular, we examine a few different specific measurements when evaluating the performance of a classification algorithm. In this review lab, we'll review precision, recall, accuracy, and F1-score in order to evaluate our logistic regression models.
+In regression, you are predicting continous values so it makes sense to discuss error as a distance of how far off our estimates were. When classifying a binary variable, however, a model is either correct or incorrect. As a result, we tend to quantify this in terms of how many false positives versus false negatives we come across. In particular, we examine a few different specific measurements when evaluating the performance of a classification algorithm. In this lab, you'll review precision, recall, accuracy, and F1 score in order to evaluate our logistic regression models.
 
 
-## Objectives
-You will be able to:  
-- Understand and assess precision, recall, and accuracy of classifiers
-- Evaluate classification models using various metrics
+## Objectives 
 
-## Terminology Review  
+In this lab you will: 
+
+- Implement evaluation metrics from scratch using Python 
+
+
+
+## Terminology review  
 
 Let's take a moment and review some classification evaluation metrics:  
 
 
-$Precision = \frac{\text{Number of True Positives}}{\text{Number of Predicted Positives}}$    
+$$ \text{Precision} = \frac{\text{Number of True Positives}}{\text{Number of Predicted Positives}} $$    
+
+$$ \text{Recall} = \frac{\text{Number of True Positives}}{\text{Number of Actual Total Positives}} $$  
   
+$$ \text{Accuracy} = \frac{\text{Number of True Positives + True Negatives}}{\text{Total Observations}} $$
 
-$Recall = \frac{\text{Number of True Positives}}{\text{Number of Actual Total Positives}}$  
-  
-$Accuracy = \frac{\text{Number of True Positives + True Negatives}}{\text{Total Observations}}$
-
-$\text{F1-Score} = 2\ \frac{Precision\ x\ Recall}{Precision + Recall}$
+$$ \text{F1 score} = 2 * \frac{\text{Precision * Recall}}{\text{Precision + Recall}} $$
 
 
-At times, it may be superior to tune a classification algorithm to optimize against precision or recall rather than overall accuracy. For example, imagine the scenario of predicting whether or not a patient is at risk for cancer and should be brought in for additional testing. In cases such as this, we often may want to cast a slightly wider net, and it is preferable to optimize for recall, the number of cancer positive cases, than it is to optimize precision, the percentage of our predicted cancer-risk patients who are indeed positive.
+At times, it may be best to tune a classification algorithm to optimize against precision or recall rather than overall accuracy. For example, imagine the scenario of predicting whether or not a patient is at risk for cancer and should be brought in for additional testing. In cases such as this, we often may want to cast a slightly wider net, and it is preferable to optimize for recall, the number of cancer positive cases, than it is to optimize precision, the percentage of our predicted cancer-risk patients who are indeed positive.
 
-## 1. Split the data into train and test sets
+## Split the data into training and test sets
 
 
 ```python
@@ -166,27 +168,36 @@ df.head()
 
 
 
+Split the data first into `X` and `y`, and then into training and test sets. Assign 25% to the test set and set the `random_state` to 0. 
+
 
 ```python
+# Import train_test_split
 from sklearn.model_selection import train_test_split
 
-X = df[df.columns[:-1]]
-y = df.target
+# Split data into X and y
+y = df['target']
+X = df.drop(columns=['target'], axis=1)
 
-# Split the data into a training set and a test set
+# Split the data into a training and a test set
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
 ```
 
-## 2. Create a standard logistic regression model
+## Build a vanilla logistic regression model
+
+- Import and instantiate `LogisticRegression` 
+- Make sure you do not use an intercept term and use the `'liblinear'` solver 
+- Fit the model to training data
 
 
 ```python
+# Import LogisticRegression
 from sklearn.linear_model import LogisticRegression
-```
 
+# Instantiate LogisticRegression 
+logreg = LogisticRegression(fit_intercept=False, C=1e12, solver='liblinear')
 
-```python
-logreg = LogisticRegression(fit_intercept = False, C = 1e12, solver='liblinear')
+# Fit to training data
 model_log = logreg.fit(X_train, y_train)
 model_log
 ```
@@ -202,77 +213,77 @@ model_log
 
 
 
-## 3. Write a function to calculate the precision
+## Write a function to calculate the precision
 
 
 ```python
-def precision(y_hat, y):
-    #Could also use confusion matrix
+def precision(y, y_hat):
+    # Could also use confusion matrix
     y_y_hat = list(zip(y, y_hat))
-    tp = sum([1 for i in y_y_hat if i[0]==1 and i[1]==1])
-    fp = sum([1 for i in y_y_hat if i[0]==0 and i[1]==1])
-    return tp/float(tp+fp)
+    tp = sum([1 for i in y_y_hat if i[0] == 1 and i[1] == 1])
+    fp = sum([1 for i in y_y_hat if i[0] == 0 and i[1] == 1])
+    return tp / float(tp + fp)
 ```
 
-## 4. Write a function to calculate the recall
+## Write a function to calculate the recall
 
 
 ```python
-def recall(y_hat, y):
-    #Could also use confusion matrix
+def recall(y, y_hat):
+    # Could also use confusion matrix
     y_y_hat = list(zip(y, y_hat))
-    tp = sum([1 for i in y_y_hat if i[0]==1 and i[1]==1])
-    fn = sum([1 for i in y_y_hat if i[0]==1 and i[1]==0])
-    return tp/float(tp+fn)
+    tp = sum([1 for i in y_y_hat if i[0] == 1 and i[1] == 1])
+    fn = sum([1 for i in y_y_hat if i[0] == 1 and i[1] == 0])
+    return tp / float(tp + fn)
 ```
 
-## 5. Write a function to calculate the accuracy
+## Write a function to calculate the accuracy
 
 
 ```python
-def accuracy(y_hat, y):
-    #Could also use confusion matrix
+def accuracy(y, y_hat):
+    # Could also use confusion matrix
     y_y_hat = list(zip(y, y_hat))
-    tp = sum([1 for i in y_y_hat if i[0]==1 and i[1]==1])
-    tn = sum([1 for i in y_y_hat if i[0]==0 and i[1]==0])
-    return (tp+tn)/float(len(y_hat))
+    tp = sum([1 for i in y_y_hat if i[0] == 1 and i[1] == 1])
+    tn = sum([1 for i in y_y_hat if i[0] == 0 and i[1] == 0])
+    return (tp + tn) / float(len(y_hat))
 ```
 
-## 6. Write a function to calculate the F1-score
+## Write a function to calculate the F1 score
 
 
 ```python
-def f1(y_hat,y):
-    precision_score = precision(y_hat,y)
-    recall_score = recall(y_hat,y)
+def f1(y, y_hat):
+    precision_score = precision(y, y_hat)
+    recall_score = recall(y, y_hat)
     numerator = precision_score * recall_score
     denominator = precision_score + recall_score
     return 2 * (numerator / denominator)
 ```
 
-## 7. Calculate the precision, recall, accuracy, and F1-score of your classifier.
+## Calculate the precision, recall, accuracy, and F1 score of your classifier 
 
-Do this for both the train and the test set
+Do this for both the training and test sets. 
 
 
 ```python
-y_hat_test = logreg.predict(X_test)
 y_hat_train = logreg.predict(X_train)
+y_hat_test = logreg.predict(X_test)
 
-print('Training Precision: ', precision(y_hat_train, y_train))
-print('Testing Precision: ', precision(y_hat_test, y_test))
+print('Training Precision: ', precision(y_train, y_hat_train))
+print('Testing Precision: ', precision(y_test, y_hat_test))
 print('\n\n')
 
-print('Training Recall: ', recall(y_hat_train, y_train))
-print('Testing Recall: ', recall(y_hat_test, y_test))
+print('Training Recall: ', recall(y_train, y_hat_train))
+print('Testing Recall: ', recall(y_test, y_hat_test))
 print('\n\n')
 
-print('Training Accuracy: ', accuracy(y_hat_train, y_train))
-print('Testing Accuracy: ', accuracy(y_hat_test, y_test))
+print('Training Accuracy: ', accuracy(y_train, y_hat_train))
+print('Testing Accuracy: ', accuracy(y_test, y_hat_test))
 print('\n\n')
 
-print('Training F1-Score: ',f1(y_hat_train,y_train))
-print('Testing F1-Score: ',f1(y_hat_test,y_test))
+print('Training F1-Score: ', f1(y_train, y_hat_train))
+print('Testing F1-Score: ', f1(y_test, y_hat_test))
 ```
 
     Training Precision:  0.8396946564885496
@@ -294,9 +305,9 @@ print('Testing F1-Score: ',f1(y_hat_test,y_test))
     Testing F1-Score:  0.8571428571428572
 
 
-Great Job! Now it's time to check your work with sklearn. 
+Great job! Now it's time to check your work with `sklearn`. 
 
-## 8. Calculating Metrics with sklearn
+## Calculate metrics with `sklearn`
 
 Each of the metrics we calculated above is also available inside the `sklearn.metrics` module.  
 
@@ -307,35 +318,35 @@ In the cell below, import the following functions:
 * `accuracy_score`
 * `f1_score`
 
-Compare the results of your performance metrics functions with the sklearn functions above. Calculate these values for both your train and test set.
+Compare the results of your performance metrics functions above with the `sklearn` functions. Calculate these values for both your train and test set. 
 
 
 ```python
 from sklearn.metrics import precision_score, recall_score, accuracy_score, f1_score
 
-print('Training Precision: ', precision_score(y_hat_train, y_train))
-print('Testing Precision: ', precision_score(y_hat_test, y_test))
+print('Training Precision: ', precision_score(y_train, y_hat_train))
+print('Testing Precision: ', precision_score(y_test, y_hat_test))
 print('\n\n')
 
-print('Training Recall: ', recall_score(y_hat_train, y_train))
-print('Testing Recall: ', recall_score(y_hat_test, y_test))
+print('Training Recall: ', recall_score(y_train, y_hat_train))
+print('Testing Recall: ', recall_score(y_test, y_hat_test))
 print('\n\n')
 
-print('Training Accuracy: ', accuracy_score(y_hat_train, y_train))
-print('Testing Accuracy: ', accuracy_score(y_hat_test, y_test))
+print('Training Accuracy: ', accuracy_score(y_train, y_hat_train))
+print('Testing Accuracy: ', accuracy_score(y_test, y_hat_test))
 print('\n\n')
 
-print('Training F1-Score: ',f1_score(y_hat_train,y_train))
-print('Testing F1-Score: ',f1_score(y_hat_test,y_test))
+print('Training F1-Score: ', f1_score(y_train, y_hat_train))
+print('Testing F1-Score: ', f1_score(y_test, y_hat_test))
 ```
 
-    Training Precision:  0.9016393442622951
-    Testing Precision:  0.9069767441860465
+    Training Precision:  0.8396946564885496
+    Testing Precision:  0.8125
     
     
     
-    Training Recall:  0.8396946564885496
-    Testing Recall:  0.8125
+    Training Recall:  0.9016393442622951
+    Testing Recall:  0.9069767441860465
     
     
     
@@ -348,10 +359,11 @@ print('Testing F1-Score: ',f1_score(y_hat_test,y_test))
     Testing F1-Score:  0.8571428571428572
 
 
-## 9. Comparing Precision, Recall, Accuracy, and F1-Score of Test vs Train Sets
+Nicely done! Did the results from `sklearn` match that of your own? 
 
+## Compare precision, recall, accuracy, and F1 score for train vs test sets
 
-Calculate and then plot the precision, recall, accuracy, and F1-score for the test and train splits using different training set sizes. What do you notice?
+Calculate and then plot the precision, recall, accuracy, and F1 score for the test and training splits using different training set sizes. What do you notice?
 
 
 ```python
@@ -361,107 +373,89 @@ import matplotlib.pyplot as plt
 
 
 ```python
-training_Precision = []
-testing_Precision = []
-training_Recall = []
-testing_Recall = []
-training_Accuracy = []
-testing_Accuracy = []
-training_F1 = []
-testing_F1 = []
+training_precision = []
+testing_precision = []
+training_recall = []
+testing_recall = []
+training_accuracy = []
+testing_accuracy = []
+training_f1 = []
+testing_f1 = []
 
-for i in range(10,95):
+for i in range(10, 95):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=i/100.0)
-    logreg = LogisticRegression(fit_intercept = False, C = 1e12,solver='liblinear')
+    logreg = LogisticRegression(fit_intercept=False, C=1e25, solver='liblinear')
     model_log = logreg.fit(X_train, y_train)
     y_hat_test = logreg.predict(X_test)
     y_hat_train = logreg.predict(X_train)
 
-    training_Precision.append(precision(y_hat_train, y_train))
-    testing_Precision.append(precision(y_hat_test, y_test))
-    training_Recall.append(recall(y_hat_train, y_train))
-    testing_Recall.append(recall(y_hat_test, y_test))
-    training_Accuracy.append(accuracy(y_hat_train, y_train))
-    testing_Accuracy.append(accuracy(y_hat_test, y_test))
-    training_F1.append(f1(y_hat_train,y_train))
-    testing_F1.append(f1(y_hat_test,y_test))
+    training_precision.append(precision(y_train, y_hat_train))
+    testing_precision.append(precision(y_test, y_hat_test))
+    training_recall.append(recall(y_train, y_hat_train))
+    testing_recall.append(recall(y_test, y_hat_test))
+    training_accuracy.append(accuracy(y_train, y_hat_train))
+    testing_accuracy.append(accuracy(y_test, y_hat_test))
+    training_f1.append(f1(y_train, y_hat_train))
+    testing_f1.append(f1(y_test, y_hat_test))
     
 ```
 
-Create 4 scatter plots looking at the test and train precision in the first one, test and train recall in the second one, test and train accuracy in the third one, and test and train f1-score in the fourth one.
+Create four scatter plots looking at the train and test precision in the first one, train and test recall in the second one, train and test accuracy in the third one, and train and test F1 score in the fourth one. 
+
+We already created the scatter plot for precision: 
 
 
 ```python
-plt.scatter(list(range(10,95)), training_Precision, label = 'training_Precision')
-plt.scatter(list(range(10,95)), testing_Precision, label = 'testing_Precision')
+# Train and test precision
+plt.scatter(list(range(10, 95)), training_precision, label='training_precision')
+plt.scatter(list(range(10, 95)), testing_precision, label='testing_precision')
 plt.legend()
+plt.show()
 ```
 
 
-
-
-    <matplotlib.legend.Legend at 0x1a1e5486d8>
-
-
-
-
-![png](index_files/index_25_1.png)
+![png](index_files/index_26_0.png)
 
 
 
 ```python
-plt.scatter(list(range(10,95)), training_Recall, label = 'training_Recall')
-plt.scatter(list(range(10,95)), testing_Recall, label = 'testing_Recall')
+# Train and test recall
+plt.scatter(list(range(10, 95)), training_recall, label='training_recall')
+plt.scatter(list(range(10, 95)), testing_recall, label='testing_recall')
 plt.legend()
+plt.show()
 ```
 
 
-
-
-    <matplotlib.legend.Legend at 0x1a1e5aa390>
-
-
-
-
-![png](index_files/index_26_1.png)
+![png](index_files/index_27_0.png)
 
 
 
 ```python
-plt.scatter(list(range(10,95)), training_Accuracy, label = 'training_Accuracy')
-plt.scatter(list(range(10,95)), testing_Accuracy, label = 'testing_Accuracy')
+# Train and test accuracy
+plt.scatter(list(range(10, 95)), training_accuracy, label='training_accuracy')
+plt.scatter(list(range(10, 95)), testing_accuracy, label='testing_accuracy')
 plt.legend()
+plt.show()
 ```
 
 
-
-
-    <matplotlib.legend.Legend at 0x1a1e77dda0>
-
-
-
-
-![png](index_files/index_27_1.png)
+![png](index_files/index_28_0.png)
 
 
 
 ```python
-plt.scatter(list(range(10,95)), training_F1, label = 'training_F1')
-plt.scatter(list(range(10,95)), testing_F1, label = 'testing_F1')
+# Train and test F1 score
+plt.scatter(list(range(10, 95)), training_f1, label='training_f1')
+plt.scatter(list(range(10, 95)), testing_f1, label='testing_f1')
 plt.legend()
+plt.show()
 ```
 
 
-
-
-    <matplotlib.legend.Legend at 0x1a1e880240>
-
-
-
-
-![png](index_files/index_28_1.png)
+![png](index_files/index_29_0.png)
 
 
 ## Summary
 
-Nice! In this lab, you gained some extra practice with evaluation metrics for classification algorithms. You also got some further python practice by manually coding these functions yourself, giving you a deeper understanding of how they work. Going forward, continue to think about scenarios in which you might prefer to optimize one of these metrics over another.
+Nice! In this lab, you calculated evaluation metrics for classification algorithms from scratch in Python. Going forward, continue to think about scenarios in which you might prefer to optimize one of these metrics over another.
