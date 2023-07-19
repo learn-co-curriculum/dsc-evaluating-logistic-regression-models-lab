@@ -1,9 +1,8 @@
-
 # Evaluating Logistic Regression Models - Lab
 
 ## Introduction
 
-In regression, you are predicting continous values so it makes sense to discuss error as a distance of how far off our estimates were. When classifying a binary variable, however, a model is either correct or incorrect. As a result, we tend to quantify this in terms of how many false positives versus false negatives we come across. In particular, we examine a few different specific measurements when evaluating the performance of a classification algorithm. In this lab, you'll review precision, recall, accuracy, and F1 score in order to evaluate our logistic regression models.
+In regression, you are predicting continuous values so it makes sense to discuss error as a distance of how far off our estimates were. When classifying a binary variable, however, a model is either correct or incorrect. As a result, we tend to quantify this in terms of how many false positives versus false negatives we come across. In particular, we examine a few different specific measurements when evaluating the performance of a classification algorithm. In this lab, you'll review precision, recall, accuracy, and F1 score in order to evaluate our logistic regression models.
 
 
 ## Objectives 
@@ -536,7 +535,9 @@ plt.show()
 ```
 
 
+    
 ![png](index_files/index_38_0.png)
+    
 
 
 
@@ -555,7 +556,9 @@ plt.show()
 ```
 
 
+    
 ![png](index_files/index_40_0.png)
+    
 
 
 
@@ -574,7 +577,9 @@ plt.show()
 ```
 
 
+    
 ![png](index_files/index_42_0.png)
+    
 
 
 
@@ -593,7 +598,9 @@ plt.show()
 ```
 
 
+    
 ![png](index_files/index_44_0.png)
+    
 
 
 ## Summary
